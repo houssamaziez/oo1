@@ -1,10 +1,11 @@
 import 'package:oo/constants.dart';
-import 'package:oo/screens/assignment_screen/assignment_screen.dart';
-import 'package:oo/screens/datesheet_screen/datesheet_screen.dart';
-import 'package:oo/screens/fee_screen/fee_screen.dart';
-import 'package:oo/screens/my_profile/my_profile.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:oo/my_profile_screen.dart';
+import 'package:oo/view/screens/assignment_screen/assignment_screen.dart';
+import 'package:oo/view/screens/datesheet_screen/datesheet_screen.dart';
+import 'package:oo/view/screens/fee_screen/fee_screen.dart';
 import 'package:sizer/sizer.dart';
 import 'widgets/student_data.dart';
 

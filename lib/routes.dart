@@ -1,35 +1,33 @@
-import 'package:oo/parent/parent_home_screen.dart';
-import 'package:oo/parent/parent_profile_screen.dart';
-import 'package:oo/screens/admin/Manage_Users.dart';
-import 'package:oo/screens/home_screen/parent_home_screen.dart';
-import 'package:oo/screens/home_screen/teacher_home_screen.dart';
-import 'package:oo/screens/login_screen/login_screen.dart';
-import 'package:oo/screens/my_profile/profile.dart';
-import 'package:oo/screens/splash_screen/splash_screen.dart';
-import 'package:oo/student/student_attendance_screen.dart';
-import 'package:oo/student/student_grades_screen.dart';
-import 'package:oo/student/student_home_screen.dart';
-import 'package:oo/student/student_profile_screen.dart';
-import 'package:oo/student/student_home_screen.dart';
+
 import 'package:flutter/cupertino.dart';
+import 'package:oo/admin/ManageStudentsScreen.dart';
+import 'package:oo/my_profile_screen.dart';
+import 'package:oo/view/parent/parent_home_screen.dart';
+import 'package:oo/view/parent/parent_profile_screen.dart';
+import 'package:oo/view/screens/assignment_screen/assignment_screen.dart';
+import 'package:oo/view/screens/datesheet_screen/datesheet_screen.dart';
+import 'package:oo/view/screens/fee_screen/fee_screen.dart';
+import 'package:oo/view/screens/home_screen/home_screen.dart';
+import 'package:oo/view/screens/home_screen/teacher_home_screen.dart';
+import 'package:oo/view/screens/login_screen/login_screen.dart';
+import 'package:oo/view/screens/my_profile/teacher_profile.dart';
+import 'package:oo/view/screens/password/CreateNewPasswordScreen.dart';
+import 'package:oo/view/student/student_attendance_screen.dart';
+import 'package:oo/view/student/student_grades_screen.dart';
+import 'package:oo/view/student/student_home_screen.dart';
+import 'package:oo/view/student/student_profile_screen.dart';
 import 'admin/Admin Dashboard.dart';
 import 'admin/add_student_grade_screen.dart';
-import 'admin/manageStudents.dart';
+
+
 import 'admin/manageSyllabus.dart';
 import 'admin/manage_payments.dart';
 import 'admin/manage_schools.dart';
 import 'admin/manage_users.dart';
 import 'admin/view_data.dart';
-import 'screens/assignment_screen/assignment_screen.dart';
-import 'screens/datesheet_screen/datesheet_screen.dart';
-import 'screens/fee_screen/fee_screen.dart';
-import 'screens/home_screen/home_screen.dart';
-import 'screens/my_profile/my_profile.dart';
-import 'package:oo/screens/my_profile/teacher_profile.dart';
+
 import 'package:flutter/material.dart';
-import 'package:oo/screens/home_screen/student_profile_screen.dart';
-import 'package:oo/screens/home_screen/teacher_home_screen.dart';
-import 'package:oo/screens/home_screen/parent_profile_screen.dart';
+
 
 Map<String, WidgetBuilder> routes = {
   //all screens will be registered here like manifest in android
@@ -41,6 +39,7 @@ Map<String, WidgetBuilder> routes = {
   AssignmentScreen.routeName: (context) => AssignmentScreen(),
   DateSheetScreen.routeName: (context) => DateSheetScreen(),
   ParentHomeScreen.routeName: (context) => ParentHomeScreen(),
+  
   TeacherHomeScreen.routeName: (context) => TeacherHomeScreen(),
   ParentProfileScreen.routeName: (context) => ParentProfileScreen(),
   TeacherProfileScreen.routeName: (context) => TeacherProfileScreen(),

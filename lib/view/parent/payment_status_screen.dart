@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:oo/screens/home_screen/widgets/course_status_list.dart';
+
 
 class PaymentStatusScreen extends StatefulWidget {
   static String routeName = 'PaymentStatusScreen';
 
-  const PaymentStatusScreen({super.key});
+  const PaymentStatusScreen({super.key, required List payments, required payment});
 
   @override
   _PaymentStatusScreenState createState() => _PaymentStatusScreenState();

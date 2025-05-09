@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:oo/constants.dart';
 import 'package:sizer/sizer.dart';
-import '../../constants.dart'; // Your style/colors
+// Your style/colors
 
 import '../login_screen/login_screen.dart'; // Your login screen path
 

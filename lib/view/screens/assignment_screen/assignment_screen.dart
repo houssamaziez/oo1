@@ -1,6 +1,7 @@
 import 'package:oo/constants.dart';
-import 'package:oo/screens/assignment_screen/data/assignment_data.dart';
+
 import 'package:flutter/material.dart';
+import 'package:oo/view/screens/assignment_screen/data/assignment_data.dart';
 import 'package:sizer/sizer.dart';
 import 'widgets/assignment_widgets.dart';
 

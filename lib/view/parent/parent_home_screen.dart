@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:oo/admin/manage_payments.dart';
+import 'package:oo/view/parent/child_regestration_screen.dart';
+import 'package:oo/view/parent/parent_profile_screen.dart';
+import 'package:oo/view/parent/payment_status_screen.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:oo/parent/parent_profile_screen.dart';
-import 'package:oo/parent/payment_status_screen.dart';
+
 import 'attendance_screen.dart';
 import 'lesson_compensation_screen.dart';
+
+
 
 class ParentHomeScreen extends StatefulWidget {
   static String routeName = 'ParentHomeScreen';
@@ -19,6 +24,9 @@ class _ParentHomeScreenState extends State<ParentHomeScreen> {
   String parentName = "";
   String childName = "";
   String photoUrl = 'https://via.placeholder.com/150'; // Valeur par défaut
+  List<Map<String, dynamic>> childrenData = [];
+List<Map<String, dynamic>> paymentsData = [];
+List<Map<String, dynamic>> studentsData = [];
 
   @override
   void initState() {
@@ -27,21 +35,56 @@ class _ParentHomeScreenState extends State<ParentHomeScreen> {
   }
 
   Future<void> fetchParentData() async {
-    final response =
-        await supabase
-            .from('parents')
-            .select()
-            .eq('id', supabase.auth.currentUser!.id)
-            .single();
+  final parentId = supabase.auth.currentUser!.id;
 
-    if (response != null) {
-      setState(() {
-        parentName = response['name'] ?? "Parent";
-        childName = response['child_name'] ?? "Enfant";
-        photoUrl = response['photo_url'] ?? 'https://via.placeholder.com/150';
-      });
-    }
+  // 1. Récupérer le parent
+  final parentResponse = await supabase
+      .from('parents')
+      .select()
+      .eq('id', parentId)
+      .single();
+
+  if (parentResponse != null) {
+    setState(() {
+      parentName = parentResponse['name'] ?? "Parent";
+      photoUrl = parentResponse['photo_url'] ?? 'https://via.placeholder.com/150';
+    });
+
+    // 2. Récupérer les enfants de ce parent
+    final childrenResponse = await supabase
+        .from('children')
+        .select()
+        .eq('parent_id', parentId);
+
+    setState(() {
+      childrenData = List<Map<String, dynamic>>.from(childrenResponse);
+      if (childrenData.isNotEmpty) {
+        childName = childrenData.first['name'] ?? "Enfant";
+      }
+    });
+
+    // 3. Récupérer les paiements associés à ce parent
+    final paymentsResponse = await supabase
+        .from('payments')
+        .select()
+        .eq('parent_id', parentId);
+
+    setState(() {
+      paymentsData = List<Map<String, dynamic>>.from(paymentsResponse);
+    });
+
+    // 4. Récupérer les élèves liés à ces enfants (si distincts)
+    final studentsResponse = await supabase
+        .from('students')
+        .select()
+        .in_('child_id', childrenData.map((child) => child['id']).toList());
+
+    setState(() {
+      studentsData = List<Map<String, dynamic>>.from(studentsResponse);
+    });
   }
+}
+
 
   @override
   Widget build(BuildContext context) {
@@ -121,7 +164,18 @@ class _ParentHomeScreenState extends State<ParentHomeScreen> {
                       () => Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (_) => PaymentStatusScreen(),
+                          builder: (_) => ManagePaymentsScreen(),
+                        ),
+                      ),
+                ),
+                ParentCard(
+                   icon: Icons.app_registration,
+                  title: "Child Regestration ",
+                  onTap:
+                      () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => ChildRegistrationPage(),
                         ),
                       ),
                 ),
@@ -145,6 +199,8 @@ class _ParentHomeScreenState extends State<ParentHomeScreen> {
                         MaterialPageRoute(builder: (_) => AttendanceScreen()),
                       ),
                 ),
+      
+
                 ParentCard(
                   icon: Icons.message,
                   title: "Messages",
@@ -180,6 +236,10 @@ class _ParentHomeScreenState extends State<ParentHomeScreen> {
   }
 }
 
+extension on PostgrestFilterBuilder<PostgrestList> {
+  in_(String s, List list) {}
+}
+
 // WIDGET DE CARTE STYLE ADMIN
 class ParentCard extends StatelessWidget {
   final IconData icon;
@@ -190,6 +250,7 @@ class ParentCard extends StatelessWidget {
     required this.icon,
     required this.title,
     required this.onTap,
+    
   });
 
   @override

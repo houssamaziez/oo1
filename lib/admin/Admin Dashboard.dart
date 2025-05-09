@@ -1,138 +1,110 @@
 import 'package:flutter/material.dart';
-import '../screens/Signup_Screen/Signup_Screen.dart';
-import '../screens/login_screen/login_screen.dart';
-import 'manageStudents.dart';
+import 'package:oo/admin/ManageStudentsScreen.dart';
+import 'package:oo/view/screens/login_screen/login_screen.dart';
+
 import 'manageSyllabus.dart';
 import 'manage_users.dart';
 import 'manage_schools.dart';
 import 'manage_payments.dart';
 import 'view_data.dart';
 import 'manage_notifications.dart';
-import 'add_student_grade_screen.dart'; // ✅ Import de l'écran d'ajout des notes
+import 'add_student_grade_screen.dart';
 
 class AdminDashboard extends StatelessWidget {
   static const String routeName = '/adminDashboard';
 
+  final Gradient backgroundGradient = const LinearGradient(
+    colors: [Color(0xFF8E9EFB), Color(0xFFB8C6DB)],
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+  );
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white, // Fond blanc comme le login
-      body: Column(
-        children: [
-          // HEADER BLEU
-          Container(
-            width: double.infinity,
-            height: 180,
-            decoration: BoxDecoration(
-              color: Color(0xFF345FB4),
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(30),
-                bottomRight: Radius.circular(30),
+      body: Container(
+        decoration: BoxDecoration(gradient: backgroundGradient),
+        child: Column(
+          children: [
+            // HEADER
+            Container(
+              width: double.infinity,
+              height: 160,
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 25),
+              decoration: const BoxDecoration(
+                color: Colors.transparent,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 30),
+                  Row(
+                    children: [
+                      const Text(
+                        "Admin Dashboard",
+                        style: TextStyle(
+                          fontFamily: 'Poppins',
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                      const Spacer(),
+                      IconButton(
+                        onPressed: () {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => LoginScreen()),
+                          );
+                        },
+                        icon: const Icon(Icons.logout, color: Colors.white),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 5),
+                  const Text(
+                    "Welcome, Admin 👋",
+                    style: TextStyle(
+                      fontFamily: 'Poppins',
+                      fontSize: 16,
+                      color: Colors.white70,
+                    ),
+                  ),
+                ],
               ),
             ),
-            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(height: 30),
-                Row(
-                  children: [
-                    Text(
-                      "Admin Dashboard",
-                      style: TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
-                    ),
-                    Spacer(),
-                    IconButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => LoginScreen(),
-                          ),
-                        );
-                      },
 
-                      icon: Icon(Icons.logout, color: Colors.white),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 5),
-                Text(
-                  "Bienvenue, Admin 👋",
-                  style: TextStyle(fontSize: 16, color: Colors.white70),
-                ),
-              ],
+            const SizedBox(height: 10),
+
+            // CARTES
+            Expanded(
+              child: GridView.count(
+                crossAxisCount: 2,
+                padding: const EdgeInsets.symmetric(horizontal: 15),
+                crossAxisSpacing: 10,
+                mainAxisSpacing: 10,
+                childAspectRatio: 0.95, // ⬅️ Plus petit que 1 pour rétrécir
+                children: [
+                  AdminCard(icon: Icons.group, title: "Manage users", route: ManageUsersScreen.routeName),
+                  AdminCard(icon: Icons.school, title: "Managing schools", route: ManageSchoolsScreen.routeName),
+                  AdminCard(icon: Icons.payment, title: "Manage payments", route: ManagePaymentsScreen.routeName),
+                  AdminCard(icon: Icons.bar_chart, title: "View the data", route: ViewDataScreen.routeName),
+                  AdminCard(icon: Icons.notifications, title: "Manage notifications", route: ManageNotificationsScreen.routeName),
+                  AdminCard(icon: Icons.people, title: "List of students", route: ManageStudentsScreen.routeName),
+                  AdminCard(icon: Icons.book, title: "List of syllabuses", route: ManageSyllabusScreen.routeName),
+                  AdminCard(icon: Icons.grade, title: "Add Student Rating", route: AddStudentGradeScreen.routeName),
+                ],
+              ),
             ),
-          ),
-
-          // ESPACE ENTRE LE HEADER ET LES BOUTONS
-          SizedBox(height: 20),
-
-          // BOUTONS ADMIN
-          Expanded(
-            child: GridView.count(
-              crossAxisCount: 2,
-              padding: EdgeInsets.symmetric(horizontal: 20),
-              crossAxisSpacing: 15,
-              mainAxisSpacing: 15,
-              children: [
-                AdminCard(
-                  icon: Icons.group,
-                  title: "Gérer les utilisateurs",
-                  route: ManageUsersScreen.routeName,
-                ),
-                AdminCard(
-                  icon: Icons.school,
-                  title: "Gérer les écoles",
-                  route: ManageSchoolsScreen.routeName,
-                ),
-                AdminCard(
-                  icon: Icons.payment,
-                  title: "Gérer les paiements",
-                  route: ManagePaymentsScreen.routeName,
-                ),
-                AdminCard(
-                  icon: Icons.bar_chart,
-                  title: "Voir les données",
-                  route: ViewDataScreen.routeName,
-                ),
-                AdminCard(
-                  icon: Icons.notifications,
-                  title: "Gérer les notifications",
-                  route: ManageNotificationsScreen.routeName,
-                ),
-                AdminCard(
-                  icon: Icons.people,
-                  title: "Liste des étudiants",
-                  route: ManageStudentsScreen.routeName,
-                ),
-                AdminCard(
-                  icon: Icons.book,
-                  title: "Liste des syllabus",
-                  route: ManageSyllabusScreen.routeName,
-                ),
-                AdminCard(
-                  icon: Icons.grade,
-                  title: "Ajouter Note Élève", // ✅ Nouvelle carte
-                  route:
-                      AddStudentGradeScreen
-                          .routeName, // Assure-toi que ce routeName est bien défini
-                ),
-              ],
-            ),
-          ),
-          SizedBox(height: 50),
-        ],
+            const SizedBox(height: 30),
+          ],
+        ),
       ),
     );
   }
 }
 
-// WIDGET POUR LES BOUTONS
 class AdminCard extends StatelessWidget {
   final IconData icon;
   final String title;
@@ -150,29 +122,30 @@ class AdminCard extends StatelessWidget {
       onTap: () => Navigator.pushNamed(context, route),
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(15),
+          color: Colors.white.withOpacity(0.95),
+          borderRadius: BorderRadius.circular(20),
           boxShadow: [
             BoxShadow(
-              color: Colors.grey.withOpacity(0.2),
+              color: Colors.black.withOpacity(0.08),
               blurRadius: 10,
-              spreadRadius: 2,
-              offset: Offset(0, 5),
+              spreadRadius: 1,
+              offset: const Offset(0, 4),
             ),
           ],
         ),
-        padding: EdgeInsets.all(20),
+        padding: const EdgeInsets.all(16),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(icon, size: 50, color: Color(0xFF345FB4)),
-            SizedBox(height: 15),
+            Icon(icon, size: 40, color: Color(0xFF345FB4)),
+            const SizedBox(height: 12),
             Text(
               title,
               textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
+              style: const TextStyle(
+                fontFamily: 'Poppins',
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
                 color: Color(0xFF345FB4),
               ),
             ),
@@ -182,3 +155,4 @@ class AdminCard extends StatelessWidget {
     );
   }
 }
+

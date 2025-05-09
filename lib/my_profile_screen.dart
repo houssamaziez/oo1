@@ -1,5 +1,6 @@
  import 'package:flutter/material.dart';
-import 'package:oo/screens/my_profile/my_profile.dart';
+import 'package:oo/view/screens/my_profile/my_profile.dart';
+
 import 'package:sizer/sizer.dart';
 import 'constants.dart'; // Import the constants file
 

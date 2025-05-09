@@ -33,7 +33,7 @@ class _AddStudentGradeScreenState extends State<AddStudentGradeScreen> {
       });
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Erreur de chargement des étudiants : $e')),
+        SnackBar(content: Text('Student loading error : $e')),
 
       );
     }
@@ -48,7 +48,7 @@ class _AddStudentGradeScreenState extends State<AddStudentGradeScreen> {
       final evaluation = _evaluationController.text.trim();
       final date = _selectedDate!.toIso8601String();
 
-      if (grade == null || grade < 0 || grade > 20) {
+      if (grade == null || grade < 0 || grade > 14) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Please enter a valid score between 0 and 20.')),
         );
@@ -65,7 +65,7 @@ class _AddStudentGradeScreenState extends State<AddStudentGradeScreen> {
         });
 
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Note ajoutée avec succès.')),
+          const SnackBar(content: Text('Note added successfully.')),
         );
 
         _formKey.currentState!.reset();
@@ -83,7 +83,7 @@ class _AddStudentGradeScreenState extends State<AddStudentGradeScreen> {
       }
     } else if (_selectedDate == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Veuillez sélectionner une date.')),
+        const SnackBar(content: Text('Please select a date.')),
       );
     }
   }

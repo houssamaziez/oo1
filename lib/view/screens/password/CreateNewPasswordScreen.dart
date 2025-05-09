@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:oo/view/screens/login_screen/login_screen.dart';
 import 'package:sizer/sizer.dart';
-import 'package:oo/screens/login_screen/login_screen.dart';
+
 
 class SplashScreen extends StatefulWidget {
   static String routeName = 'SplashScreen';
@@ -102,51 +103,50 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               });
             },
             itemBuilder: (context, index) {
-              return SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    SizedBox(height: 8.h),
-                    Center(
-                      child: Image.asset(
-                        _onboardingData[index]["image"]!,
-                        height: 50.h,
-                        width: 80.w,
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  SizedBox(height: 8.h),
+                  Center(
+                    child: Image.asset(
+                      _onboardingData[index]["image"]!,
+                      height: 45.h,
+                      width: 80.w,
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 5.w),
+                    child: Text(
+                      _onboardingData[index]["title"]!,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 19.sp,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
                       ),
                     ),
-                    SizedBox(height: 3.h),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 5.w),
-                      child: Text(
-                        _onboardingData[index]["title"]!,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 22.sp,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 2.h),
-                    Container(
+                  ),
+                  SizedBox(height: 2.h),
+                  Expanded(
+                    flex: 3,
+                    child: Container(
                       width: double.infinity,
                       padding: EdgeInsets.symmetric(
                         horizontal: 5.w,
                         vertical: 3.h,
                       ),
                       decoration: BoxDecoration(
-                        color: Colors.blue.shade700,
-                        borderRadius: BorderRadius.circular(15),
+                        gradient: myColor,
+                        borderRadius: BorderRadius.only(topLeft: Radius.circular(16) , topRight: Radius.circular(16)),
                       ),
                       child: Text(
                         _onboardingData[index]["description"]!,
                         textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 12.sp, color: Colors.white),
+                        style: TextStyle(fontSize: 10.sp, color: Colors.white),
                       ),
                     ),
-                    SizedBox(height: 5.h),
-                  ],
-                ),
+                  ),
+                ],
               );
             },
           ),
@@ -168,7 +168,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           ),
 
           Positioned(
-            bottom: 70,
+            bottom: 90,
             left: 0,
             right: 0,
             child: Row(
@@ -205,43 +205,18 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),
                     ),
-                    backgroundColor: Colors.blue.shade700,
+                    backgroundColor: Colors.white,
                   ),
                   child: Text(
                     "Get Started",
-                    style: TextStyle(fontSize: 14.sp, color: Colors.white),
+                    style: TextStyle(fontSize: 14.sp, color: Colors.black, fontWeight: 
+                    FontWeight.bold),
                   ),
                 ),
               ),
             ),
 
-          // Créer Mot de Passe Button
-          Positioned(
-            bottom: 80,
-            left: 0,
-            right: 0,
-            child: Center(
-              child: ElevatedButton(
-                onPressed: () {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => LoginScreen()),
-                  );
-                },
-                style: ElevatedButton.styleFrom(
-                  padding: EdgeInsets.symmetric(horizontal: 40, vertical: 12),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  backgroundColor: Colors.blue.shade700,
-                ),
-                child: Text(
-                  "Create Password",
-                  style: TextStyle(fontSize: 14.sp, color: Colors.white),
-                ),
-              ),
-            ),
-          ),
+         
         ],
       ),
     );

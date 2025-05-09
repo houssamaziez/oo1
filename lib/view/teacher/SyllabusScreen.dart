@@ -1,4 +1,4 @@
-import 'package:oo/teacher/path_to_folder/syllabus_edit_screen.dart';
+import 'package:oo/view/teacher/path_to_folder/syllabus_edit_screen.dart';
 import 'package:flutter/material.dart';
 import 'syllabus_edit_screen.dart';
 import 'package:pdf/widgets.dart' as pw;

@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import '../../teacher/CahierDeTexteScreen.dart';
-import '../../teacher/ChangePasswordScreen.dart';
-import '../../teacher/EmploiDuTempsScreen.dart';
-import '../../teacher/ModifierProfilScreen.dart';
-import '../../teacher/MyCoursesScreen.dart';
-import '../../teacher/NotificationsScreen.dart';
-import '../../teacher/StudentsListScreen.dart';
-import '../../teacher/ExamResultsScreen.dart';
-import '../../teacher/SyllabusScreen.dart'; // ✅ Import ajouté
+import 'package:oo/view/student/notifications_screen.dart';
+import 'package:oo/view/teacher/CahierDeTexteScreen.dart';
+import 'package:oo/view/teacher/ChangePasswordScreen.dart';
+import 'package:oo/view/teacher/EmploiDuTempsScreen.dart';
+import 'package:oo/view/teacher/ExamResultsScreen.dart';
+import 'package:oo/view/teacher/ModifierProfilScreen.dart';
+import 'package:oo/view/teacher/MyCoursesScreen.dart';
+import 'package:oo/view/teacher/StudentsListScreen.dart';
+import 'package:oo/view/teacher/SyllabusScreen.dart';
+ // ✅ Import ajouté
 
 import 'MesCoursScreen.dart';
 import 'emploi_du_temps_screen.dart';

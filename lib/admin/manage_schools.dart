@@ -48,7 +48,7 @@ class _ManageSchoolsScreenState extends State<ManageSchoolsScreen> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text('Ajouter une école'),
+          title: Text('Add a school'),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -56,13 +56,13 @@ class _ManageSchoolsScreenState extends State<ManageSchoolsScreen> {
                 onChanged: (value) {
                   schoolName = value;
                 },
-                decoration: InputDecoration(labelText: 'Nom de l\'école'),
+                decoration: InputDecoration(labelText: 'Name of the school'),
               ),
               TextField(
                 onChanged: (value) {
                   directorName = value;
                 },
-                decoration: InputDecoration(labelText: 'Nom du directeur'),
+                decoration: InputDecoration(labelText: 'Director name'),
               ),
               TextField(
                 onChanged: (value) {
@@ -77,7 +77,7 @@ class _ManageSchoolsScreenState extends State<ManageSchoolsScreen> {
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: Text('Annuler'),
+              child: Text('Cancel'),
             ),
             TextButton(
               onPressed: () async {
@@ -92,7 +92,7 @@ class _ManageSchoolsScreenState extends State<ManageSchoolsScreen> {
                   Navigator.pop(context);
                 }
               },
-              child: Text('Ajouter'),
+              child: Text('Add'),
             ),
           ],
         );
@@ -109,7 +109,7 @@ class _ManageSchoolsScreenState extends State<ManageSchoolsScreen> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text('Modifier une école'),
+          title: Text('Edit a school'),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -118,14 +118,14 @@ class _ManageSchoolsScreenState extends State<ManageSchoolsScreen> {
                 onChanged: (value) {
                   schoolName = value;
                 },
-                decoration: InputDecoration(labelText: 'Nom de l\'école'),
+                decoration: InputDecoration(labelText: 'Name of the school'),
               ),
               TextField(
                 controller: TextEditingController(text: directorName),
                 onChanged: (value) {
                   directorName = value;
                 },
-                decoration: InputDecoration(labelText: 'Nom du directeur'),
+                decoration: InputDecoration(labelText: 'Director name'),
               ),
               TextField(
                 controller: TextEditingController(text: schoolAddress),
@@ -141,7 +141,7 @@ class _ManageSchoolsScreenState extends State<ManageSchoolsScreen> {
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: Text('Annuler'),
+              child: Text('Cancel'),
             ),
             TextButton(
               onPressed: () async {
@@ -156,7 +156,7 @@ class _ManageSchoolsScreenState extends State<ManageSchoolsScreen> {
                   Navigator.pop(context);
                 }
               },
-              child: Text('Modifier'),
+              child: Text('Edit'),
             ),
           ],
         );
@@ -174,21 +174,21 @@ class _ManageSchoolsScreenState extends State<ManageSchoolsScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Confirmer la suppression'),
-          content: Text('Êtes-vous sûr de vouloir supprimer cette école ?'),
+          title: Text('Confirm deletion'),
+          content: Text('Are you sure you want to delete this school?'),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.pop(context); // Close the dialog
               },
-              child: Text('Annuler'),
+              child: Text('Cancel'),
             ),
             TextButton(
               onPressed: () {
                 _deleteSchool(id); // Delete the school
                 Navigator.pop(context); // Close the dialog
               },
-              child: Text('Supprimer'),
+              child: Text('Delete'),
             ),
           ],
         );
@@ -201,7 +201,7 @@ class _ManageSchoolsScreenState extends State<ManageSchoolsScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text("Gérer les écoles"),
+        title: Text("Managing schools"),
         backgroundColor: Color(0xFF345FB4),
         actions: [
           IconButton(
@@ -218,7 +218,7 @@ class _ManageSchoolsScreenState extends State<ManageSchoolsScreen> {
             child: TextField(
               controller: _searchController,
               decoration: InputDecoration(
-                labelText: 'Rechercher une école',
+                labelText: 'Search for a school',
                 prefixIcon: Icon(Icons.search),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),

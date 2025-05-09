@@ -1,8 +1,60 @@
-// TODO Implement this library.
 import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
-class ManageNotificationsScreen extends StatelessWidget {
+class ManageNotificationsScreen extends StatefulWidget {
   static const String routeName = '/manageNotifications';
+
+  @override
+  _ManageNotificationsScreenState createState() => _ManageNotificationsScreenState();
+}
+
+class _ManageNotificationsScreenState extends State<ManageNotificationsScreen> {
+  final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _messageController = TextEditingController();
+  bool _isSending = false;
+
+  Future<void> _sendNotification() async {
+    final title = _titleController.text.trim();
+    final message = _messageController.text.trim();
+    final source = 'Admin'; // Tu peux changer selon l'utilisateur connecté
+
+    if (title.isEmpty || message.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Please fill in all fields')),
+      );
+      return;
+    }
+
+    setState(() {
+      _isSending = true;
+    });
+
+    try {
+      final supabase = Supabase.instance.client;
+      await supabase.from('notifications').insert({
+        'title': title,
+        'message': message,
+        'source': source,
+        'created_at': DateTime.now().toIso8601String(),
+      });
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Notification sent successfully')),
+      );
+
+      _titleController.clear();
+      _messageController.clear();
+    } catch (e) {
+      print('Error sending $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error sending')),
+      );
+    } finally {
+      setState(() {
+        _isSending = false;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +79,7 @@ class ManageNotificationsScreen extends StatelessWidget {
               children: [
                 SizedBox(height: 30),
                 Text(
-                  "Gérer les notifications",
+                  "Manage notifications",
                   style: TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.bold,
@@ -36,23 +88,22 @@ class ManageNotificationsScreen extends StatelessWidget {
                 ),
                 SizedBox(height: 5),
                 Text(
-                  "Envoyez des notifications aux utilisateurs",
+                  "Send notifications to users",
                   style: TextStyle(fontSize: 16, color: Colors.white70),
                 ),
               ],
             ),
           ),
-
           SizedBox(height: 20),
-
           Expanded(
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 20),
               child: Column(
                 children: [
                   TextField(
+                    controller: _titleController,
                     decoration: InputDecoration(
-                      labelText: "Titre de la notification",
+                      labelText: "Notification title",
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
@@ -60,6 +111,7 @@ class ManageNotificationsScreen extends StatelessWidget {
                   ),
                   SizedBox(height: 15),
                   TextField(
+                    controller: _messageController,
                     maxLines: 4,
                     decoration: InputDecoration(
                       labelText: "Message",
@@ -70,9 +122,7 @@ class ManageNotificationsScreen extends StatelessWidget {
                   ),
                   SizedBox(height: 20),
                   ElevatedButton(
-                    onPressed: () {
-                      // TODO: Ajouter la logique d'envoi de notification
-                    },
+                    onPressed: _isSending ? null : _sendNotification,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Color(0xFF345FB4),
                       padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
@@ -80,10 +130,12 @@ class ManageNotificationsScreen extends StatelessWidget {
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
-                    child: Text(
-                      "Envoyer",
-                      style: TextStyle(fontSize: 18, color: Colors.white),
-                    ),
+                    child: _isSending
+                        ? CircularProgressIndicator(color: Colors.white)
+                        : Text(
+                            "Send",
+                            style: TextStyle(fontSize: 18, color: Colors.white),
+                          ),
                   ),
                 ],
               ),

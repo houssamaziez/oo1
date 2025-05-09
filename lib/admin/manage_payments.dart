@@ -36,29 +36,22 @@ class _ManagePaymentsScreenState extends State<ManagePaymentsScreen> {
   void _filterPayments(String query) {
     setState(() {
       searchQuery = query.toLowerCase();
-      filteredPayments =
-          payments.where((payment) {
-            final studentName =
-                (payment['students']['full_name'] ?? '').toLowerCase();
-            return studentName.contains(searchQuery);
-          }).toList();
+      filteredPayments = payments.where((payment) {
+        final studentName =
+            (payment['students']['full_name'] ?? '').toLowerCase();
+        return studentName.contains(searchQuery);
+      }).toList();
     });
   }
 
-  Future<void> _addPayment(
-    String studentId,
-    double amount,
-    String status,
-  ) async {
+  Future<void> _addPayment(String studentId, double amount, String status) async {
     try {
-      final response = await supabase.from('pyment').insert({
+      await supabase.from('pyment').insert({
         'student_id': studentId,
-        // 'id' : DateTime.now().toIso8601String(),
         'amount': amount,
         'status': status,
-        'pyment_date':
-            DateTime.now().toIso8601String(), // better format for timestamps
-        'created_at': DateTime.now().toIso8601String(), // if required
+        'pyment_date': DateTime.now().toIso8601String(),
+        'created_at': DateTime.now().toIso8601String(),
       });
     } catch (e) {
       print(e);
@@ -67,12 +60,12 @@ class _ManagePaymentsScreenState extends State<ManagePaymentsScreen> {
   }
 
   Future<void> _deletePayment(String id) async {
-    await supabase.from('payments').delete().eq('id', id);
+    await supabase.from('pyment').delete().eq('id', id);
     _fetchPayments();
   }
 
   Future<void> _updatePayment(String id, String status) async {
-    await supabase.from('payments').update({'status': status}).eq('id', id);
+    await supabase.from('pyment').update({'status': status}).eq('id', id);
     _fetchPayments();
   }
 
@@ -80,7 +73,7 @@ class _ManagePaymentsScreenState extends State<ManagePaymentsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("💳 Gestion des paiements"),
+        title: Text("💳 Payment management"),
         backgroundColor: Color(0xFF345FB4),
         actions: [
           IconButton(
@@ -121,15 +114,13 @@ class _ManagePaymentsScreenState extends State<ManagePaymentsScreen> {
                       "Montant: ${payment['amount']} | Statut: ${payment['status']}",
                       style: TextStyle(color: Colors.grey),
                     ),
-                    trailing:
-                        payment['status'] == 'Payé'
-                            ? Icon(Icons.check_circle, color: Colors.green)
-                            : Icon(Icons.cancel, color: Colors.red),
-                    onTap:
-                        () => _updatePayment(
-                          payment['id'],
-                          payment['status'] == 'Payé' ? 'Non payé' : 'Payé',
-                        ),
+                    trailing: payment['status'] == 'Paid'
+                        ? Icon(Icons.check_circle, color: Colors.green)
+                        : Icon(Icons.cancel, color: Colors.red),
+                    onTap: () => _updatePayment(
+                      payment['id'],
+                      payment['status'] == 'Paid' ? 'No Paid' : 'Paid',
+                    ),
                     onLongPress: () => _deletePayment(payment['id']),
                   ),
                 );
@@ -147,7 +138,7 @@ class _ManagePaymentsScreenState extends State<ManagePaymentsScreen> {
       child: TextField(
         onChanged: _filterPayments,
         decoration: InputDecoration(
-          hintText: 'Rechercher par nom...',
+          hintText: 'Search by name...',
           prefixIcon: Icon(Icons.search),
           border: OutlineInputBorder(),
           filled: true,
@@ -160,7 +151,8 @@ class _ManagePaymentsScreenState extends State<ManagePaymentsScreen> {
   void _showAddPaymentDialog() {
     final studentController = TextEditingController();
     final amountController = TextEditingController();
-    String status = 'Non payé';
+    String status = 'No Paid';
+
     showDialog(
       context: context,
       builder: (context) {
@@ -169,7 +161,7 @@ class _ManagePaymentsScreenState extends State<ManagePaymentsScreen> {
             return SingleChildScrollView(
               child: AlertDialog(
                 title: Text(
-                  "Ajouter un paiement",
+                  "Add a payment",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
                 content: Column(
@@ -178,7 +170,7 @@ class _ManagePaymentsScreenState extends State<ManagePaymentsScreen> {
                     TextField(
                       controller: studentController,
                       decoration: InputDecoration(
-                        labelText: "Nom de l'élève",
+                        labelText: "Student's name",
                         border: OutlineInputBorder(),
                       ),
                     ),
@@ -186,7 +178,7 @@ class _ManagePaymentsScreenState extends State<ManagePaymentsScreen> {
                     TextField(
                       controller: amountController,
                       decoration: InputDecoration(
-                        labelText: "Montant",
+                        labelText: "Amount",
                         border: OutlineInputBorder(),
                       ),
                       keyboardType: TextInputType.number,
@@ -200,15 +192,12 @@ class _ManagePaymentsScreenState extends State<ManagePaymentsScreen> {
                           status = newValue!;
                         });
                       },
-                      items:
-                          ['Payé', 'Non payé']
-                              .map(
-                                (statusOption) => DropdownMenuItem<String>(
-                                  value: statusOption,
-                                  child: Text(statusOption),
-                                ),
-                              )
-                              .toList(),
+                      items: ['Paid', 'No Paid'].map((statusOption) {
+                        return DropdownMenuItem<String>(
+                          value: statusOption,
+                          child: Text(statusOption),
+                        );
+                      }).toList(),
                     ),
                   ],
                 ),
@@ -217,7 +206,7 @@ class _ManagePaymentsScreenState extends State<ManagePaymentsScreen> {
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
-                    child: Text("Annuler"),
+                    child: Text("Cancel"),
                   ),
                   TextButton(
                     onPressed: () async {
@@ -225,12 +214,11 @@ class _ManagePaymentsScreenState extends State<ManagePaymentsScreen> {
                           amountController.text.isNotEmpty) {
                         var response;
                         try {
-                          response =
-                              await supabase
-                                  .from('students')
-                                  .select('id')
-                                  .eq('full_name', studentController.text)
-                                  .single();
+                          response = await supabase
+                              .from('students')
+                              .select('id')
+                              .eq('full_name', studentController.text)
+                              .single();
                         } catch (e) {
                           print(e);
                         }
@@ -249,12 +237,12 @@ class _ManagePaymentsScreenState extends State<ManagePaymentsScreen> {
                           Navigator.of(context).pop();
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text("Étudiant non trouvé.")),
+                            SnackBar(content: Text("Student not found.")),
                           );
                         }
                       }
                     },
-                    child: Text("Ajouter"),
+                    child: Text("Add"),
                   ),
                 ],
               ),
@@ -265,3 +253,4 @@ class _ManagePaymentsScreenState extends State<ManagePaymentsScreen> {
     );
   }
 }
+

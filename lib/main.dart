@@ -1,32 +1,38 @@
-import 'package:oo/parent/chat_with_school_screen.dart';
-import 'package:oo/parent/grades_screen.dart';
-import 'package:oo/parent/homework_screen.dart';
-import 'package:oo/parent/technical_support_screen.dart';
+
+import 'package:oo/admin/ManageStudentsScreen.dart';
+import 'package:oo/my_profile_screen.dart';
 import 'package:oo/routes.dart';
-import 'package:oo/screens/Signup_Screen/Signup_Screen.dart';
-import 'package:oo/screens/my_profile/my_profile.dart';
-import 'package:oo/screens/password/CreateNewPasswordScreen.dart';
-import 'package:oo/student/edit_student_profile_screen.dart';
-import 'package:oo/student/notifications_screen.dart';
-import 'package:oo/student/student_attendance_screen.dart';
-import 'package:oo/student/student_contact_screen.dart';
-import 'package:oo/student/student_details_screen.dart';
-import 'package:oo/student/student_profile_screen.dart';
-import 'package:oo/student/student_results_screen.dart';
-import 'package:oo/student/student_support_screen.dart';
+
 import 'package:oo/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:oo/view/parent/chat_with_school_screen.dart';
+import 'package:oo/view/parent/grades_screen.dart';
+import 'package:oo/view/parent/homework_screen.dart';
+import 'package:oo/view/parent/parent_profile_screen.dart';
+import 'package:oo/view/parent/technical_support_screen.dart';
+import 'package:oo/view/screens/Signup_Screen/Signup_Screen.dart';
+import 'package:oo/view/screens/home_screen/teacher_home_screen.dart';
+import 'package:oo/view/screens/password/CreateNewPasswordScreen.dart';
+import 'package:oo/view/student/edit_student_profile_screen.dart';
+import 'package:oo/view/student/notifications_screen.dart';
+import 'package:oo/view/student/student_attendance_screen.dart';
+import 'package:oo/view/student/student_contact_screen.dart';
+import 'package:oo/view/student/student_details_screen.dart';
+import 'package:oo/view/student/student_home_screen.dart';
+import 'package:oo/view/student/student_profile_screen.dart';
+import 'package:oo/view/student/student_results_screen.dart';
+import 'package:oo/view/student/student_support_screen.dart';
 import 'package:sizer/sizer.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'admin/Admin Dashboard.dart';
 
 import 'admin/manage_users.dart';
-import 'admin/manageStudents.dart';
+
 import 'admin/manage_notifications.dart';
 import 'admin/manage_payments.dart';
 import 'admin/manage_schools.dart';
 import 'admin/view_data.dart';
-import 'screens/student_profile_screen.dart';
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -67,6 +73,10 @@ class MyApp extends StatelessWidget {
             'SignUpScreen': (_) => SignUpScreen(),
             'HomeworkScreen': (context) => const HomeworkScreen(),
             'GradesScreen': (context) => const GradesScreen(),
+            '/studentHome': (_) => StudentHomeScreen(),
+  '/teacherHome': (_) => TeacherHomeScreen(),
+  '/parentProfile': (_) => ParentProfileScreen(),
+  '/adminDashboard': (_) => AdminDashboard(),
             'ChatWithSchoolScreen': (context) => const ChatWithSchoolScreen(),
             'TechnicalSupportScreen':
                 (context) => const TechnicalSupportScreen(),
