@@ -2,7 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:oo/admin/Admin%20Dashboard.dart';
-import 'package:oo/view/screens/home_screen/teacher_home_screen.dart';
+import 'package:oo/view/screens/home_screen/teacher_home_screen%20(1).dart';
+
 import 'package:sizer/sizer.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 

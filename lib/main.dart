@@ -11,7 +11,10 @@ import 'package:oo/view/parent/homework_screen.dart';
 import 'package:oo/view/parent/parent_profile_screen.dart';
 import 'package:oo/view/parent/technical_support_screen.dart';
 import 'package:oo/view/screens/Signup_Screen/Signup_Screen.dart';
-import 'package:oo/view/screens/home_screen/teacher_home_screen.dart';
+import 'package:oo/view/screens/home_screen/teacher_home_screen%20(1).dart';
+
+
+
 import 'package:oo/view/screens/password/CreateNewPasswordScreen.dart';
 import 'package:oo/view/student/edit_student_profile_screen.dart';
 import 'package:oo/view/student/notifications_screen.dart';

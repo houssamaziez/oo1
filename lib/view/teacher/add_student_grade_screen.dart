@@ -44,7 +44,7 @@ class _AddStudentGradeScreenState extends State<AddStudentGradeScreen> {
       });
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Erreur de chargement des étudiants : $e')),
+        SnackBar(content: Text('Student loading error: $e')),
       );
     }
   }
@@ -58,7 +58,7 @@ class _AddStudentGradeScreenState extends State<AddStudentGradeScreen> {
 
       if (grade == null || grade < 0 || grade > 20) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Veuillez saisir une note valide entre 0 et 20.')),
+          const SnackBar(content: Text('Please enter a valid rating between 0 and 20.')),
         );
         return;
       }
@@ -73,7 +73,7 @@ class _AddStudentGradeScreenState extends State<AddStudentGradeScreen> {
         });
 
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Note ajoutée avec succès.')),
+          const SnackBar(content: Text('Note added successfully.')),
         );
 
         _formKey.currentState!.reset();
@@ -91,7 +91,7 @@ class _AddStudentGradeScreenState extends State<AddStudentGradeScreen> {
       }
     } else if (_selectedDate == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Veuillez sélectionner une date.')),
+        const SnackBar(content: Text('Please select a date.')),
       );
     }
   }
@@ -123,7 +123,7 @@ class _AddStudentGradeScreenState extends State<AddStudentGradeScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Ajouter une note',
+          'Add a note',
           style: TextStyle(
             fontFamily: 'Poppins',
             fontWeight: FontWeight.bold,
@@ -146,7 +146,7 @@ class _AddStudentGradeScreenState extends State<AddStudentGradeScreen> {
                 const SizedBox(height: 20),
                 _buildTextField(
                   controller: _subjectController,
-                  hintText: 'Matière',
+                  hintText: 'Matter',
                   obscureText: false,
                   icon: Icons.book_outlined,
                   validator: (value) => value!.isEmpty ? 'Champ requis' : null,
@@ -163,7 +163,7 @@ class _AddStudentGradeScreenState extends State<AddStudentGradeScreen> {
                 const SizedBox(height: 20),
                 _buildTextField(
                   controller: _evaluationController,
-                  hintText: 'Type d\'évaluation',
+                  hintText: 'Type of assessment',
                   obscureText: false,
                   icon: Icons.assignment_outlined,
                   validator: (value) => value!.isEmpty ? 'Champ requis' : null,
@@ -178,7 +178,7 @@ GestureDetector(
             ? ''
             : DateFormat('yyyy-MM-dd').format(_selectedDate!),
       ),
-      hintText: 'Date d\'évaluation',
+      hintText: 'Assessment date',
       icon: Icons.calendar_today,
       obscureText: false,
       validator: (value) => value!.isEmpty ? 'Date requise' : null,
@@ -302,7 +302,7 @@ style: const TextStyle(
         });
       },
       decoration: const InputDecoration(
-        labelText: 'Sélectionner un élève',
+        labelText: 'Select a student',
         labelStyle: TextStyle(
           fontFamily: 'Poppins',
           fontSize: 16,
@@ -310,7 +310,7 @@ style: const TextStyle(
         ),
         border: InputBorder.none,
       ),
-      validator: (value) => value == null ? 'Veuillez sélectionner un élève' : null,
+      validator: (value) => value == null ? 'Please select a student' : null,
     );
   }
 }
@@ -319,4 +319,4 @@ style: const TextStyle(
 
 
 
-
+// TODO Implement this library.

@@ -8,7 +8,10 @@ import 'package:oo/view/screens/assignment_screen/assignment_screen.dart';
 import 'package:oo/view/screens/datesheet_screen/datesheet_screen.dart';
 import 'package:oo/view/screens/fee_screen/fee_screen.dart';
 import 'package:oo/view/screens/home_screen/home_screen.dart';
-import 'package:oo/view/screens/home_screen/teacher_home_screen.dart';
+import 'package:oo/view/screens/home_screen/teacher_home_screen%20(1).dart';
+
+
+
 import 'package:oo/view/screens/login_screen/login_screen.dart';
 import 'package:oo/view/screens/my_profile/teacher_profile.dart';
 import 'package:oo/view/screens/password/CreateNewPasswordScreen.dart';
@@ -59,6 +62,7 @@ Map<String, WidgetBuilder> routes = {
   'StudentProfileScreen': (context) => const StudentProfileScreen(),
   StudentProfileScreen.routeName: (context) => const StudentProfileScreen(),
   StudentHomeScreen.routeName: (context) => const StudentHomeScreen(),
+  
   '/student-home': (context) => StudentHomeScreen(),
   AddStudentGradeScreen.routeName: (_) => AddStudentGradeScreen(),
 
