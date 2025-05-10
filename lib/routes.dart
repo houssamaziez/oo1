@@ -16,8 +16,9 @@ import 'package:oo/view/student/student_attendance_screen.dart';
 import 'package:oo/view/student/student_grades_screen.dart';
 import 'package:oo/view/student/student_home_screen.dart';
 import 'package:oo/view/student/student_profile_screen.dart';
+import 'package:oo/view/teacher/add_student_grade_screen.dart';
 import 'admin/Admin Dashboard.dart';
-import 'admin/add_student_grade_screen.dart';
+
 
 
 import 'admin/manageSyllabus.dart';

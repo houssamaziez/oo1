@@ -8,7 +8,7 @@ import 'manage_schools.dart';
 import 'manage_payments.dart';
 import 'view_data.dart';
 import 'manage_notifications.dart';
-import 'add_student_grade_screen.dart';
+
 
 class AdminDashboard extends StatelessWidget {
   static const String routeName = '/adminDashboard';
@@ -93,7 +93,6 @@ class AdminDashboard extends StatelessWidget {
                   AdminCard(icon: Icons.notifications, title: "Manage notifications", route: ManageNotificationsScreen.routeName),
                   AdminCard(icon: Icons.people, title: "List of students", route: ManageStudentsScreen.routeName),
                   AdminCard(icon: Icons.book, title: "List of syllabuses", route: ManageSyllabusScreen.routeName),
-                  AdminCard(icon: Icons.grade, title: "Add Student Rating", route: AddStudentGradeScreen.routeName),
                 ],
               ),
             ),

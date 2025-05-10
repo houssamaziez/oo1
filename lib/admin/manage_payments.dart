@@ -6,7 +6,7 @@ class ManagePaymentsScreen extends StatefulWidget {
   const ManagePaymentsScreen({super.key});
 
   @override
-  _ManagePaymentsScreenState createState() => _ManagePaymentsScreenState();
+  State<ManagePaymentsScreen> createState() => _ManagePaymentsScreenState();
 }
 
 class _ManagePaymentsScreenState extends State<ManagePaymentsScreen> {
@@ -37,25 +37,20 @@ class _ManagePaymentsScreenState extends State<ManagePaymentsScreen> {
     setState(() {
       searchQuery = query.toLowerCase();
       filteredPayments = payments.where((payment) {
-        final studentName =
-            (payment['students']['full_name'] ?? '').toLowerCase();
+        final studentName = (payment['students']['full_name'] ?? '').toLowerCase();
         return studentName.contains(searchQuery);
       }).toList();
     });
   }
 
   Future<void> _addPayment(String studentId, double amount, String status) async {
-    try {
-      await supabase.from('pyment').insert({
-        'student_id': studentId,
-        'amount': amount,
-        'status': status,
-        'pyment_date': DateTime.now().toIso8601String(),
-        'created_at': DateTime.now().toIso8601String(),
-      });
-    } catch (e) {
-      print(e);
-    }
+    await supabase.from('pyment').insert({
+      'student_id': studentId,
+      'amount': amount,
+      'status': status,
+      'pyment_date': DateTime.now().toIso8601String(),
+      'created_at': DateTime.now().toIso8601String(),
+    });
     _fetchPayments();
   }
 
@@ -72,15 +67,14 @@ class _ManagePaymentsScreenState extends State<ManagePaymentsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFF5F7FA),
       appBar: AppBar(
-        title: Text("💳 Payment management"),
-        backgroundColor: Color(0xFF345FB4),
+        title: const Text("💳 Payment Management"),
+        backgroundColor: const Color(0xFF345FB4),
         actions: [
           IconButton(
-            icon: Icon(Icons.add),
-            onPressed: () {
-              _showAddPaymentDialog();
-            },
+            icon: const Icon(Icons.add),
+            onPressed: _showAddPaymentDialog,
           ),
         ],
       ),
@@ -89,38 +83,34 @@ class _ManagePaymentsScreenState extends State<ManagePaymentsScreen> {
           _buildSearchBar(),
           Expanded(
             child: ListView.builder(
-              padding: EdgeInsets.all(20),
+              padding: const EdgeInsets.all(20),
               itemCount: filteredPayments.length,
               itemBuilder: (context, index) {
                 final payment = filteredPayments[index];
-                final studentName =
-                    payment['students']['full_name'] ?? 'Inconnu';
+                final studentName = payment['students']['full_name'] ?? 'Inconnu';
                 return Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  elevation: 5,
-                  margin: EdgeInsets.symmetric(vertical: 10),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+                  elevation: 3,
+                  color: Colors.white,
+                  margin: const EdgeInsets.symmetric(vertical: 8),
                   child: ListTile(
-                    contentPadding: EdgeInsets.all(15),
+                    contentPadding: const EdgeInsets.all(16),
                     title: Text(
-                      "Élève: $studentName",
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      "👤 Élève : $studentName",
+                      style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
                     subtitle: Text(
-                      "Montant: ${payment['amount']} | Statut: ${payment['status']}",
-                      style: TextStyle(color: Colors.grey),
+                      "💰 Montant: ${payment['amount']} DA\n📌 Statut: ${payment['status']}",
+                      style: const TextStyle(color: Colors.grey),
                     ),
-                    trailing: payment['status'] == 'Paid'
-                        ? Icon(Icons.check_circle, color: Colors.green)
-                        : Icon(Icons.cancel, color: Colors.red),
-                    onTap: () => _updatePayment(
-                      payment['id'],
-                      payment['status'] == 'Paid' ? 'No Paid' : 'Paid',
+                    trailing: Icon(
+                      payment['status'] == 'Paid' ? Icons.check_circle : Icons.cancel,
+                      color: payment['status'] == 'Paid' ? Colors.green : Colors.red,
                     ),
+                    onTap: () {
+                      final newStatus = payment['status'] == 'Paid' ? 'No Paid' : 'Paid';
+                      _updatePayment(payment['id'], newStatus);
+                    },
                     onLongPress: () => _deletePayment(payment['id']),
                   ),
                 );
@@ -138,11 +128,11 @@ class _ManagePaymentsScreenState extends State<ManagePaymentsScreen> {
       child: TextField(
         onChanged: _filterPayments,
         decoration: InputDecoration(
-          hintText: 'Search by name...',
-          prefixIcon: Icon(Icons.search),
-          border: OutlineInputBorder(),
+          hintText: '🔍 Rechercher un élève...',
+          prefixIcon: const Icon(Icons.search),
           filled: true,
           fillColor: Colors.white,
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
         ),
       ),
     );
@@ -156,98 +146,76 @@ class _ManagePaymentsScreenState extends State<ManagePaymentsScreen> {
     showDialog(
       context: context,
       builder: (context) {
-        return StatefulBuilder(
-          builder: (context, setState) {
-            return SingleChildScrollView(
-              child: AlertDialog(
-                title: Text(
-                  "Add a payment",
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                content: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    TextField(
-                      controller: studentController,
-                      decoration: InputDecoration(
-                        labelText: "Student's name",
-                        border: OutlineInputBorder(),
-                      ),
-                    ),
-                    SizedBox(height: 10),
-                    TextField(
-                      controller: amountController,
-                      decoration: InputDecoration(
-                        labelText: "Amount",
-                        border: OutlineInputBorder(),
-                      ),
-                      keyboardType: TextInputType.number,
-                    ),
-                    SizedBox(height: 10),
-                    DropdownButton<String>(
-                      value: status,
-                      style: TextStyle(color: Colors.black),
-                      onChanged: (newValue) {
-                        setState(() {
-                          status = newValue!;
-                        });
-                      },
-                      items: ['Paid', 'No Paid'].map((statusOption) {
-                        return DropdownMenuItem<String>(
-                          value: statusOption,
-                          child: Text(statusOption),
-                        );
-                      }).toList(),
-                    ),
-                  ],
-                ),
-                actions: [
-                  TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: Text("Cancel"),
+        return AlertDialog(
+          title: const Text("➕ Ajouter un paiement"),
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextField(
+                  controller: studentController,
+                  decoration: const InputDecoration(
+                    labelText: "Nom de l'élève",
+                    border: OutlineInputBorder(),
                   ),
-                  TextButton(
-                    onPressed: () async {
-                      if (studentController.text.isNotEmpty &&
-                          amountController.text.isNotEmpty) {
-                        var response;
-                        try {
-                          response = await supabase
-                              .from('students')
-                              .select('id')
-                              .eq('full_name', studentController.text)
-                              .single();
-                        } catch (e) {
-                          print(e);
-                        }
+                ),
+                const SizedBox(height: 10),
+                TextField(
+                  controller: amountController,
+                  keyboardType: TextInputType.number,
+                  decoration: const InputDecoration(
+                    labelText: "Montant",
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+                const SizedBox(height: 10),
+                DropdownButtonFormField<String>(
+                  value: status,
+                  decoration: const InputDecoration(
+                    labelText: "Statut",
+                    border: OutlineInputBorder(),
+                  ),
+                  items: ['Paid', 'No Paid'].map((value) {
+                    return DropdownMenuItem(value: value, child: Text(value));
+                  }).toList(),
+                  onChanged: (val) => setState(() => status = val ?? 'No Paid'),
+                ),
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+              child: const Text("Annuler"),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+            TextButton(
+              child: const Text("Ajouter"),
+              onPressed: () async {
+                if (studentController.text.isNotEmpty && amountController.text.isNotEmpty) {
+                  try {
+                    final response = await supabase
+                        .from('students')
+                        .select('id')
+                        .eq('full_name', studentController.text)
+                        .single();
 
-                        if (response != null) {
-                          final studentId = response['id'];
-                          try {
-                            await _addPayment(
-                              studentId,
-                              double.parse(amountController.text),
-                              status,
-                            );
-                          } catch (e) {
-                            print(e);
-                          }
-                          Navigator.of(context).pop();
-                        } else {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text("Student not found.")),
-                          );
-                        }
-                      }
-                    },
-                    child: Text("Add"),
-                  ),
-                ],
-              ),
-            );
-          },
+                    if (response != null) {
+                      await _addPayment(
+                        response['id'],
+                        double.parse(amountController.text),
+                        status,
+                      );
+                      Navigator.of(context).pop();
+                    }
+                  } catch (e) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text("❌ Élève introuvable.")),
+                    );
+                  }
+                }
+              },
+            ),
+          ],
         );
       },
     );

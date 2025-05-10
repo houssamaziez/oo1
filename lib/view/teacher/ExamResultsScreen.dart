@@ -23,6 +23,7 @@ class _ExamResultsScreenState extends State<ExamResultsScreen> {
   final TextEditingController _gradeController = TextEditingController();
   final TextEditingController _dateController = TextEditingController();
   final TextEditingController _statusController = TextEditingController();
+  
 
   // Méthode pour récupérer les notes pour le graphique
   List<double> getGrades() {
