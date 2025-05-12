@@ -1,8 +1,14 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:oo/view/screens/login_screen/login_screen.dart';
 import 'package:sizer/sizer.dart';
 
-
+var myColor = LinearGradient(
+  colors: [Color(0xFF8E9EFB), Color(0xFFB8C6DB)],
+  begin: Alignment.topLeft,
+  end: Alignment.bottomRight,
+);
 class SplashScreen extends StatefulWidget {
   static String routeName = 'SplashScreen';
 
@@ -32,14 +38,16 @@ class _SplashScreenState extends State<SplashScreen> {
         );
       },
       child: Scaffold(
-        backgroundColor: Colors.blue.shade700,
+        backgroundColor:  Color(0xFF8E9EFB),
+          drawerScrimColor: Color(0xFFB8C6DB),
+
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SizedBox(height: 20),
               Image.asset(
-                'assets/images/splash.png',
+                'assets/images/logo.png',
                 height: 60.h,
                 width: 60.w,
               ),
@@ -140,7 +148,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         vertical: 3.h,
                       ),
                       decoration: BoxDecoration(
-                        color: Colors.blue.shade700,
+                        color: Color(0xFF8E9EFB),
+
                         borderRadius: BorderRadius.circular(15),
                       ),
                       child: Text(
@@ -167,7 +176,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 style: TextStyle(
                   fontSize: 14.sp,
                   fontWeight: FontWeight.bold,
-                  color: Colors.blue.shade700,
+                  color: Color(0xFF8E9EFB),
                 ),
               ),
             ),

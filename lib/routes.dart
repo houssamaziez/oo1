@@ -24,9 +24,11 @@ import 'admin/Admin Dashboard.dart';
 
 
 
+
 import 'admin/manageSyllabus.dart';
 import 'admin/manage_payments.dart';
 import 'admin/manage_schools.dart';
+
 import 'admin/manage_users.dart';
 import 'admin/view_data.dart';
 
@@ -62,7 +64,8 @@ Map<String, WidgetBuilder> routes = {
   'StudentProfileScreen': (context) => const StudentProfileScreen(),
   StudentProfileScreen.routeName: (context) => const StudentProfileScreen(),
   StudentHomeScreen.routeName: (context) => const StudentHomeScreen(),
-  
+
+
   '/student-home': (context) => StudentHomeScreen(),
   AddStudentGradeScreen.routeName: (_) => AddStudentGradeScreen(),
 

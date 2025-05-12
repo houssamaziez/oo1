@@ -29,6 +29,7 @@ import 'package:sizer/sizer.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'admin/Admin Dashboard.dart';
 
+
 import 'admin/manage_users.dart';
 
 import 'admin/manage_notifications.dart';
@@ -80,6 +81,7 @@ class MyApp extends StatelessWidget {
   '/teacherHome': (_) => TeacherHomeScreen(),
   '/parentProfile': (_) => ParentProfileScreen(),
   '/adminDashboard': (_) => AdminDashboard(),
+
             'ChatWithSchoolScreen': (context) => const ChatWithSchoolScreen(),
             'TechnicalSupportScreen':
                 (context) => const TechnicalSupportScreen(),

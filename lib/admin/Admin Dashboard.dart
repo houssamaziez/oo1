@@ -3,11 +3,14 @@ import 'package:oo/admin/ManageStudentsScreen.dart';
 import 'package:oo/view/screens/login_screen/login_screen.dart';
 
 import 'manageSyllabus.dart';
+
 import 'manage_users.dart';
 import 'manage_schools.dart';
 import 'manage_payments.dart';
 import 'view_data.dart';
 import 'manage_notifications.dart';
+
+
 
 
 class AdminDashboard extends StatelessWidget {
@@ -93,6 +96,8 @@ class AdminDashboard extends StatelessWidget {
                   AdminCard(icon: Icons.notifications, title: "Manage notifications", route: ManageNotificationsScreen.routeName),
                   AdminCard(icon: Icons.people, title: "List of students", route: ManageStudentsScreen.routeName),
                   AdminCard(icon: Icons.book, title: "List of syllabuses", route: ManageSyllabusScreen.routeName),
+
+
                 ],
               ),
             ),

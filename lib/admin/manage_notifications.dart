@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+var myColor = LinearGradient(
+  colors: [Color(0xFF8E9EFB), Color(0xFFB8C6DB)],
+  begin: Alignment.topLeft,
+  end: Alignment.bottomRight,
+);
+
 class ManageNotificationsScreen extends StatefulWidget {
   static const String routeName = '/manageNotifications';
 
@@ -13,10 +19,13 @@ class _ManageNotificationsScreenState extends State<ManageNotificationsScreen> {
   final TextEditingController _messageController = TextEditingController();
   bool _isSending = false;
 
+  String _selectedUserType = 'All'; // Parent, Teacher, Student, All
+  final List<String> _userTypes = ['All', 'Parent', 'Teacher', 'Student'];
+
   Future<void> _sendNotification() async {
     final title = _titleController.text.trim();
     final message = _messageController.text.trim();
-    final source = 'Admin'; // Tu peux changer selon l'utilisateur connecté
+    final source = 'Admin';
 
     if (title.isEmpty || message.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -31,23 +40,35 @@ class _ManageNotificationsScreenState extends State<ManageNotificationsScreen> {
 
     try {
       final supabase = Supabase.instance.client;
-      await supabase.from('notifications').insert({
-        'title': title,
-        'message': message,
-        'source': source,
-        'created_at': DateTime.now().toIso8601String(),
-      });
+      var query = supabase.from('profiles').select('id');
+
+      if (_selectedUserType != 'All') {
+        query = query.eq('user_type', _selectedUserType);
+      }
+
+      final users = await query;
+
+      for (final user in users) {
+        await supabase.from('notifications').insert({
+          'user_id': user['id'],
+          'title': title,
+          'message': message,
+          'source': source,
+          'created_at': DateTime.now().toIso8601String(),
+          'status': 'Non lu',
+        });
+      }
 
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Notification sent successfully')),
+        SnackBar(content: Text('Notifications sent to $_selectedUserType')),
       );
 
       _titleController.clear();
       _messageController.clear();
     } catch (e) {
-      print('Error sending $e');
+      print('Error sending notifications: $e');
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error sending')),
+        SnackBar(content: Text('Error sending notifications')),
       );
     } finally {
       setState(() {
@@ -59,89 +80,131 @@ class _ManageNotificationsScreenState extends State<ManageNotificationsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      body: Column(
-        children: [
-          // HEADER BLEU
-          Container(
-            width: double.infinity,
-            height: 180,
-            decoration: BoxDecoration(
-              color: Color(0xFF345FB4),
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(30),
-                bottomRight: Radius.circular(30),
-              ),
-            ),
-            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(height: 30),
-                Text(
-                  "Manage notifications",
-                  style: TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                ),
-                SizedBox(height: 5),
-                Text(
-                  "Send notifications to users",
-                  style: TextStyle(fontSize: 16, color: Colors.white70),
-                ),
-              ],
-            ),
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+
+            colors: [
+              Color(0xFF8E9EFB), // Bleu clair
+              Color(0xFFB8C6DB),
+           // Bleu un peu plus foncé
+            ],
+
           ),
-          SizedBox(height: 20),
-          Expanded(
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20),
+        ),
+        child: SafeArea(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 24.0, vertical: 16),
+            child: SingleChildScrollView(
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  TextField(
-                    controller: _titleController,
-                    decoration: InputDecoration(
-                      labelText: "Notification title",
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
+                  Text(
+                    "Manage Notifications",
+                    style: TextStyle(
+                      fontSize: 26,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white.withOpacity(0.95),
                     ),
                   ),
-                  SizedBox(height: 15),
-                  TextField(
-                    controller: _messageController,
-                    maxLines: 4,
-                    decoration: InputDecoration(
-                      labelText: "Message",
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
+                  SizedBox(height: 8),
+                  Text(
+                    "Send notifications to users",
+                    style: TextStyle(fontSize: 16, color: Colors.white70),
                   ),
-                  SizedBox(height: 20),
-                  ElevatedButton(
-                    onPressed: _isSending ? null : _sendNotification,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xFF345FB4),
-                      padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
+
+
+                  SizedBox(height: 30),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.85), // au lieu de 0.9
+                      borderRadius: BorderRadius.circular(15),
                     ),
-                    child: _isSending
-                        ? CircularProgressIndicator(color: Colors.white)
-                        : Text(
-                            "Send",
-                            style: TextStyle(fontSize: 18, color: Colors.white),
+
+                    padding: EdgeInsets.all(7),
+                    child: Column(
+                      children: [
+                        DropdownButtonFormField<String>(
+                          value: _selectedUserType,
+                          items: _userTypes.map((type) {
+                            return DropdownMenuItem(
+                              value: type,
+                              child: Text(type, style: TextStyle(color: Colors.black)),
+                            );
+                          }).toList(),
+                          onChanged: (value) {
+                            setState(() {
+                              _selectedUserType = value!;
+                            });
+                          },
+                          decoration: InputDecoration(
+                            labelText: "Select user type",
+                            labelStyle: TextStyle(color: Colors.grey),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
                           ),
+                        ),
+                        SizedBox(height: 15),
+                        TextField(
+                          controller: _titleController,
+                          decoration: InputDecoration(
+                            labelText: "Notification Title",
+                            labelStyle: TextStyle(color: Colors.grey),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                          style: TextStyle(color: Colors.black),
+                        ),
+                        SizedBox(height: 15),
+                        TextField(
+                          controller: _messageController,
+                          maxLines: 4,
+                          decoration: InputDecoration(
+                            labelText: "Message",
+                            labelStyle: TextStyle(color: Colors.grey),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                          style: TextStyle(color: Colors.black),
+                        ),
+                        SizedBox(height: 25),
+
+                        SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton(
+                            onPressed: _isSending ? null : _sendNotification,
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Color(0xFF8E9EFB),
+                              padding: EdgeInsets.symmetric(vertical: 16),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                            child: _isSending
+                                ? CircularProgressIndicator(color: Colors.white)
+                                : Text(
+                              "Send Notification",
+                              style: TextStyle(
+                                fontSize: 18,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
             ),
           ),
-        ],
+        ),
       ),
     );
   }
