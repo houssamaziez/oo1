@@ -5,7 +5,9 @@ import 'package:oo/routes.dart';
 
 import 'package:oo/theme.dart';
 import 'package:flutter/material.dart';
-import 'package:oo/view/parent/chat_with_school_screen.dart';
+import 'package:oo/view/chat_view/chatscreen_list.dart';
+import 'package:oo/view/chat_view/list_user.dart';
+import 'package:oo/view/parent/ParentChatScreen.dart';
 import 'package:oo/view/parent/grades_screen.dart';
 import 'package:oo/view/parent/homework_screen.dart';
 import 'package:oo/view/parent/parent_profile_screen.dart';
@@ -81,9 +83,9 @@ class MyApp extends StatelessWidget {
   '/teacherHome': (_) => TeacherHomeScreen(),
   '/parentProfile': (_) => ParentProfileScreen(),
   '/adminDashboard': (_) => AdminDashboard(),
-
-            'ChatWithSchoolScreen': (context) => const ChatWithSchoolScreen(),
-            'TechnicalSupportScreen':
+'/ChatWithUserByIdScreen':(_)=>ChatWithUserByIdScreen(),
+            '/UserListScreen':(_)=>UserListScreen(),
+           'TechnicalSupportScreen':
                 (context) => const TechnicalSupportScreen(),
             StudentContactScreen.routeName: (context) => StudentContactScreen(),
             StudentResultsScreen.routeName:

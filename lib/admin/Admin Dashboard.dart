@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:oo/admin/ManageStudentsScreen.dart';
 import 'package:oo/view/screens/login_screen/login_screen.dart';
 
+import '../view/chat_view/chatscreen_list.dart';
+import '../view/chat_view/list_user.dart';
 import 'manageSyllabus.dart';
 
 import 'manage_users.dart';
@@ -96,6 +98,9 @@ class AdminDashboard extends StatelessWidget {
                   AdminCard(icon: Icons.notifications, title: "Manage notifications", route: ManageNotificationsScreen.routeName),
                   AdminCard(icon: Icons.people, title: "List of students", route: ManageStudentsScreen.routeName),
                   AdminCard(icon: Icons.book, title: "List of syllabuses", route: ManageSyllabusScreen.routeName),
+                  AdminCard(icon: Icons.book, title: "chat", route: UserListScreen.routeName),
+
+
 
 
                 ],
