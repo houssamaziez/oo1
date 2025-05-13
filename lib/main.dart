@@ -1,4 +1,3 @@
-
 import 'package:oo/admin/ManageStudentsScreen.dart';
 import 'package:oo/my_profile_screen.dart';
 import 'package:oo/routes.dart';
@@ -15,8 +14,6 @@ import 'package:oo/view/parent/technical_support_screen.dart';
 import 'package:oo/view/screens/Signup_Screen/Signup_Screen.dart';
 import 'package:oo/view/screens/home_screen/teacher_home_screen%20(1).dart';
 
-
-
 import 'package:oo/view/screens/password/CreateNewPasswordScreen.dart';
 import 'package:oo/view/student/edit_student_profile_screen.dart';
 import 'package:oo/view/student/notifications_screen.dart';
@@ -31,14 +28,12 @@ import 'package:sizer/sizer.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'admin/Admin Dashboard.dart';
 
-
 import 'admin/manage_users.dart';
 
 import 'admin/manage_notifications.dart';
 import 'admin/manage_payments.dart';
 import 'admin/manage_schools.dart';
 import 'admin/view_data.dart';
-
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -80,12 +75,11 @@ class MyApp extends StatelessWidget {
             'HomeworkScreen': (context) => const HomeworkScreen(),
             'GradesScreen': (context) => const GradesScreen(),
             '/studentHome': (_) => StudentHomeScreen(),
-  '/teacherHome': (_) => TeacherHomeScreen(),
-  '/parentProfile': (_) => ParentProfileScreen(),
-  '/adminDashboard': (_) => AdminDashboard(),
-'/ChatWithUserByIdScreen':(_)=>ChatWithUserByIdScreen(),
-            '/UserListScreen':(_)=>UserListScreen(),
-           'TechnicalSupportScreen':
+            '/teacherHome': (_) => TeacherHomeScreen(),
+            '/parentProfile': (_) => ParentProfileScreen(),
+            '/adminDashboard': (_) => AdminDashboard(),
+            '/UserListScreen': (_) => UserListScreen(),
+            'TechnicalSupportScreen':
                 (context) => const TechnicalSupportScreen(),
             StudentContactScreen.routeName: (context) => StudentContactScreen(),
             StudentResultsScreen.routeName:
